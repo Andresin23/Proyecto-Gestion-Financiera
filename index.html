@@ -312,11 +312,12 @@
 
           <!-- Metas de Ahorro -->
           <div class="card">
-            <div class="card-header flex-between">
+            <div class="card-header flex-between flex-wrap gap-sm">
               <div>
                 <h3 class="card-title">Metas de Ahorro e Inversión</h3>
                 <p class="card-subtitle">Proyectos financieros a mediano y largo plazo</p>
               </div>
+              <button class="btn btn-primary btn-sm" id="open-new-goal-modal-btn">+ Nueva Meta</button>
             </div>
             <div class="card-body">
               <div class="goals-grid" id="goals-grid">
@@ -677,6 +678,36 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" id="goal-modal-cancel-btn">Cancelar</button>
           <button type="submit" class="btn btn-primary">Añadir Ahorro</button>
+        </div>
+      </form>
+    </div>
+  <!-- ==================== MODAL DE CREAR NUEVA META ==================== -->
+  <div class="modal-backdrop" id="new-goal-modal" role="dialog" aria-modal="true" aria-labelledby="new-goal-modal-title">
+    <div class="modal modal-sm">
+      <div class="modal-header">
+        <h3 class="modal-title" id="new-goal-modal-title">Crear Nueva Meta de Ahorro</h3>
+        <button class="modal-close" id="new-goal-modal-close-btn" aria-label="Cerrar ventana">&times;</button>
+      </div>
+      <form id="new-goal-form" class="modal-body">
+        <div class="form-group">
+          <label for="new-goal-name">Nombre de la Meta</label>
+          <input type="text" id="new-goal-name" placeholder="Ej. Fondo de Emergencia, Comprar Vehículo" required>
+        </div>
+        <div class="form-group">
+          <label for="new-goal-target">Monto Objetivo ($)</label>
+          <input type="number" id="new-goal-target" min="1" step="0.01" placeholder="Ej. 5000" required>
+        </div>
+        <div class="form-group">
+          <label for="new-goal-current">Monto Inicial Ahorrado ($)</label>
+          <input type="number" id="new-goal-current" min="0" step="0.01" placeholder="Ej. 0" value="0">
+        </div>
+        <div class="form-group">
+          <label for="new-goal-deadline">Fecha Límite</label>
+          <input type="date" id="new-goal-deadline" required>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="new-goal-modal-cancel-btn">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Crear Meta</button>
         </div>
       </form>
     </div>

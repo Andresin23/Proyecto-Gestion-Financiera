@@ -59,8 +59,14 @@ const FinanApp = {
     if (!this.state.transactions || this.state.transactions.length === 0) {
       const savedTx = localStorage.getItem('finanpro_transactions');
       if (savedTx) {
-        this.state.transactions = JSON.parse(savedTx);
-      } else {
+        try {
+          const parsed = JSON.parse(savedTx);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            this.state.transactions = parsed;
+          }
+        } catch (e) {}
+      }
+      if (!this.state.transactions || this.state.transactions.length === 0) {
         this.seedDefaultData();
       }
     }
@@ -68,13 +74,21 @@ const FinanApp = {
     if (!this.state.goals || this.state.goals.length === 0) {
       const savedGoals = localStorage.getItem('finanpro_goals');
       if (savedGoals) {
-        this.state.goals = JSON.parse(savedGoals);
-      } else {
+        try {
+          const parsed = JSON.parse(savedGoals);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            this.state.goals = parsed;
+          }
+        } catch (e) {}
+      }
+      if (!this.state.goals || this.state.goals.length === 0) {
         this.state.goals = [
           { id: 1, name: 'Fondo de Emergencia', target: 5000, current: 3400, deadline: '2026-12-31' },
           { id: 2, name: 'Vacaciones Familiares', target: 2500, current: 1800, deadline: '2026-09-15' },
-          { id: 3, name: 'Portafolio de Inversión', target: 10000, current: 4200, deadline: '2027-06-30' }
+          { id: 3, name: 'Portafolio de Inversión', target: 10000, current: 4200, deadline: '2027-06-30' },
+          { id: 4, name: 'Comprar una Moto', target: 6000, current: 1800, deadline: '2026-11-30' }
         ];
+        this.saveState();
       }
     }
 
@@ -232,11 +246,46 @@ const FinanApp = {
       closeGoalModal();
     });
 
+    // New Goal Modal
+    const newGoalModal = document.getElementById('new-goal-modal');
+    const openNewGoalBtn = document.getElementById('open-new-goal-modal-btn');
+    const newGoalCloseBtn = document.getElementById('new-goal-modal-close-btn');
+    const newGoalCancelBtn = document.getElementById('new-goal-modal-cancel-btn');
+    const newGoalForm = document.getElementById('new-goal-form');
+
+    const openNewGoalModal = () => {
+      document.getElementById('new-goal-deadline').value = new Date().toISOString().split('T')[0];
+      newGoalModal.classList.add('active');
+      document.getElementById('new-goal-name')?.focus();
+    };
+
+    const closeNewGoalModal = () => {
+      newGoalModal.classList.remove('active');
+      newGoalForm?.reset();
+    };
+
+    if (openNewGoalBtn) openNewGoalBtn.addEventListener('click', openNewGoalModal);
+    if (newGoalCloseBtn) newGoalCloseBtn.addEventListener('click', closeNewGoalModal);
+    if (newGoalCancelBtn) newGoalCancelBtn.addEventListener('click', closeNewGoalModal);
+
+    if (newGoalModal) {
+      newGoalModal.addEventListener('click', (e) => {
+        if (e.target === newGoalModal) closeNewGoalModal();
+      });
+    }
+
+    newGoalForm?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      this.handleCreateGoal();
+      closeNewGoalModal();
+    });
+
     // Accesibilidad Teclado: Cerrar modales con tecla ESC
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         if (txModal.classList.contains('active')) closeModal();
         if (goalModal.classList.contains('active')) closeGoalModal();
+        if (newGoalModal?.classList.contains('active')) closeNewGoalModal();
       }
     });
   },
@@ -264,6 +313,8 @@ const FinanApp = {
 
     document.getElementById('goals-grid')?.addEventListener('click', (e) => {
       const depositBtn = e.target.closest('.btn-goal-deposit');
+      const deleteGoalBtn = e.target.closest('.btn-delete-goal');
+
       if (depositBtn) {
         const goalId = parseInt(depositBtn.dataset.id);
         const goal = this.state.goals.find(g => g.id === goalId);
@@ -273,6 +324,9 @@ const FinanApp = {
           document.getElementById('goal-modal').classList.add('active');
           document.getElementById('goal-deposit-amount')?.focus();
         }
+      } else if (deleteGoalBtn) {
+        const goalId = parseInt(deleteGoalBtn.dataset.id);
+        this.deleteGoal(goalId);
       }
     });
   },
@@ -338,6 +392,51 @@ const FinanApp = {
       this.renderGoals();
       this.showToast(`Abonados $${amount.toLocaleString()} a ${goal.name}`, 'success');
     }
+  },
+
+  async handleCreateGoal() {
+    const name = document.getElementById('new-goal-name').value.trim();
+    const target = parseFloat(document.getElementById('new-goal-target').value);
+    const current = parseFloat(document.getElementById('new-goal-current').value) || 0;
+    const deadline = document.getElementById('new-goal-deadline').value;
+
+    if (!name || isNaN(target) || target <= 0 || !deadline) {
+      this.showToast('Por favor completa todos los campos requeridos', 'error');
+      return;
+    }
+
+    const newGoal = {
+      id: Date.now(),
+      name,
+      target,
+      current,
+      deadline
+    };
+
+    if (typeof SupabaseDB !== 'undefined' && SupabaseDB.isConfigured()) {
+      const inserted = await SupabaseDB.addGoal(newGoal);
+      if (inserted) {
+        newGoal.id = inserted.id;
+      }
+    }
+
+    this.state.goals.push(newGoal);
+    this.saveState();
+    this.renderGoals();
+    this.showToast(`Meta "${name}" creada con éxito`, 'success');
+  },
+
+  async deleteGoal(id) {
+    const goal = this.state.goals.find(g => g.id === id);
+    if (!goal) return;
+
+    if (typeof SupabaseDB !== 'undefined' && SupabaseDB.isConfigured()) {
+      await SupabaseDB.deleteGoal(id);
+    }
+    this.state.goals = this.state.goals.filter(g => g.id !== id);
+    this.saveState();
+    this.renderGoals();
+    this.showToast(`Meta "${goal.name}" eliminada`, 'info');
   },
 
   exportCSV() {
@@ -491,17 +590,38 @@ const FinanApp = {
     const container = document.getElementById('goals-grid');
     if (!container) return;
 
+    if (!this.state.goals || this.state.goals.length === 0) {
+      container.innerHTML = `
+        <div class="empty-state" style="grid-column: 1 / -1; padding: 2rem 1rem; text-align: center;">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+          <h4 style="margin-top: 1rem;">No tienes metas de ahorro registradas</h4>
+          <p style="color: var(--text-muted); margin-bottom: 1rem;">Crea tu primera meta haciendo clic en "+ Nueva Meta".</p>
+        </div>
+      `;
+      return;
+    }
+
     container.innerHTML = this.state.goals.map(g => {
-      const pct = Math.min(100, Math.round((g.current / g.target) * 100));
+      const current = parseFloat(g.current || 0);
+      const target = parseFloat(g.target || 1);
+      const pct = Math.min(100, Math.round((current / target) * 100));
       return `
         <div class="goal-card">
-          <div class="goal-header">
-            <h4 class="goal-title">${g.name}</h4>
-            <button class="btn btn-secondary btn-sm btn-goal-deposit" data-id="${g.id}" aria-label="Abonar fondos a la meta ${g.name}">+ Abonar</button>
+          <div class="goal-header" style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem;">
+            <div>
+              <h4 class="goal-title">${g.name}</h4>
+              <small style="color: var(--text-muted);">${g.deadline ? 'Límite: ' + g.deadline : ''}</small>
+            </div>
+            <div style="display: flex; gap: 0.4rem; align-items: center;">
+              <button class="btn btn-secondary btn-sm btn-goal-deposit" data-id="${g.id}" aria-label="Abonar fondos a la meta ${g.name}">+ Abonar</button>
+              <button class="btn-delete-row btn-delete-goal" data-id="${g.id}" title="Eliminar meta ${g.name}" aria-label="Eliminar la meta ${g.name}">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+              </button>
+            </div>
           </div>
           <div class="goal-amounts">
-            <span>Ahorrado: ${this.formatCurrency(g.current)}</span>
-            <span>Objetivo: ${this.formatCurrency(g.target)}</span>
+            <span>Ahorrado: ${this.formatCurrency(current)}</span>
+            <span>Objetivo: ${this.formatCurrency(target)}</span>
           </div>
           <div class="savings-progress-bar" role="progressbar" aria-label="Progreso de la meta ${g.name}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}">
             <div class="savings-progress-fill" style="width: ${pct}%;"></div>

@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FinanPro | Plataforma Inteligente de Gestión Financiera</title>
+  <meta name="description" content="Plataforma profesional accesible para la gestión de finanzas personales y empresariales. Control de ingresos, gastos, presupuestos, metas de ahorro y simuladores financieros.">
+  <meta name="keywords" content="Finanzas Personales, Gestión Financiera, Control de Gastos, Presupuesto, Ahorro, Inversiones, Interés Compuesto">
+
+  <!-- Google Fonts: Inter & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Chart.js CDN for Professional Interactive Charts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Link de salto directo para navegación con teclado (Accesibilidad Web WCAG 2.1) -->
+  <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
+
+  <!-- ==================== HEADER / NAVEGACIÓN ==================== -->
+  <header class="header" id="header" role="banner">
+    <div class="container nav-container">
+      <a href="#" class="logo" aria-label="FinanPro Inicio">
+        <div class="logo-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="1" x2="12" y2="23"></line>
+            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+          </svg>
+        </div>
+        <span class="logo-text">Finan<span class="gradient-text">Pro</span></span>
+      </a>
+
+      <nav class="nav-menu" id="nav-menu" role="navigation" aria-label="Navegación principal">
+        <a href="#resumen" class="nav-link active">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>
+          <span>Dashboard</span>
+        </a>
+        <a href="#movimientos" class="nav-link">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+          <span>Movimientos</span>
+        </a>
+        <a href="#presupuestos" class="nav-link">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
+          <span>Presupuestos & Metas</span>
+        </a>
+        <a href="#calculadoras" class="nav-link">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="16" y1="14" x2="16" y2="18"></line><path d="M16 10h.01"></path><path d="M12 10h.01"></path><path d="M8 10h.01"></path><path d="M12 14h.01"></path><path d="M8 14h.01"></path><path d="M12 18h.01"></path><path d="M8 18h.01"></path></svg>
+          <span>Simuladores</span>
+        </a>
+        <a href="#divisas" class="nav-link">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1 4-10z"></path></svg>
+          <span>Divisas</span>
+        </a>
+      </nav>
+
+      <div class="nav-actions">
+        <!-- GitHub Button -->
+        <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="btn btn-github btn-sm" title="Ver repositorio de código en GitHub" aria-label="Repositorio de GitHub">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+          <span>GitHub</span>
+        </a>
+
+        <!-- Theme Switcher -->
+        <button class="theme-toggle" id="theme-toggle" title="Cambiar tema claro/oscuro" aria-label="Cambiar tema de color">
+          <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+          <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        </button>
+
+        <!-- Quick Action Button -->
+        <button class="btn btn-primary btn-sm" id="open-modal-btn" aria-label="Abrir formulario para registrar nueva transacción">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          <span>Nueva Transacción</span>
+        </button>
+
+        <!-- Mobile Toggle Button -->
+        <button class="mobile-toggle" id="mobile-toggle" aria-label="Abrir o cerrar menú móvil" aria-expanded="false" aria-controls="nav-menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== MAIN CONTENT ==================== -->
+  <main class="main-content" id="main-content" role="main" tabindex="-1">
+    
+    <!-- ==================== HERO KPI STATS ==================== -->
+    <section class="section kpi-section" id="resumen" aria-label="Resumen de patrimonio y métricas clave">
+      <div class="container">
+        <div class="welcome-banner">
+          <div class="welcome-text">
+            <h2>Gestión Financiera Inteligente</h2>
+            <p>Monitorea tu patrimonio, controla tus gastos e impulsa tus ahorros en tiempo real.</p>
+          </div>
+          <div class="banner-actions">
+            <button class="btn btn-secondary btn-sm" id="reset-demo-btn" aria-label="Restaurar transacciones y metas con datos de demostración">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21.5 2v6h-6M2.5 22v-6h6"></path><path d="M2 11.5a10 10 0 0 1 18.8-4.3L21.5 8M22 12.5a10 10 0 0 1-18.8 4.3L2.5 16"></path></svg>
+              Cargar Datos Demo
+            </button>
+          </div>
+        </div>
+
+        <div class="kpi-grid">
+          <!-- Card 1: Saldo Total -->
+          <article class="kpi-card balance-card">
+            <div class="kpi-header">
+              <span class="kpi-title" id="kpi-label-balance">Patrimonio Neto Total</span>
+              <div class="kpi-icon icon-emerald" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg>
+              </div>
+            </div>
+            <div class="kpi-body">
+              <h3 class="kpi-value" id="kpi-total-balance" aria-labelledby="kpi-label-balance">$0.00</h3>
+              <div class="kpi-trend positive" id="kpi-balance-trend">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+                <span>Estado Financiero Saludable</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 2: Ingresos del Mes -->
+          <article class="kpi-card income-card">
+            <div class="kpi-header">
+              <span class="kpi-title" id="kpi-label-income">Ingresos Totales</span>
+              <div class="kpi-icon icon-green" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+              </div>
+            </div>
+            <div class="kpi-body">
+              <h3 class="kpi-value text-green" id="kpi-total-income" aria-labelledby="kpi-label-income">$0.00</h3>
+              <p class="kpi-subtext" id="kpi-income-count">0 registros este mes</p>
+            </div>
+          </article>
+
+          <!-- Card 3: Gastos del Mes -->
+          <article class="kpi-card expense-card">
+            <div class="kpi-header">
+              <span class="kpi-title" id="kpi-label-expense">Gastos Totales</span>
+              <div class="kpi-icon icon-red" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
+              </div>
+            </div>
+            <div class="kpi-body">
+              <h3 class="kpi-value text-red" id="kpi-total-expense" aria-labelledby="kpi-label-expense">$0.00</h3>
+              <p class="kpi-subtext" id="kpi-expense-count">0 registros este mes</p>
+            </div>
+          </article>
+
+          <!-- Card 4: Ratio de Ahorro -->
+          <article class="kpi-card savings-card">
+            <div class="kpi-header">
+              <span class="kpi-title" id="kpi-label-savings">Tasa de Ahorro</span>
+              <div class="kpi-icon icon-blue" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 5c-1.5 0-2.8 1.4-3 2-3.5-1.5-11-.3-11 5 0 1.8 0 3 2 4.5V20h4v-2h2v2h4v-3.5c1-.5 1.5-1 2.5-2.5 1-1.5 1.5-3 1.5-4.5 0-2.5-1-4.5-2-4.5z"></path></svg>
+              </div>
+            </div>
+            <div class="kpi-body">
+              <h3 class="kpi-value text-accent" id="kpi-savings-rate" aria-labelledby="kpi-label-savings">0%</h3>
+              <div class="savings-progress-bar" role="progressbar" aria-label="Porcentaje de ahorro generado" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="kpi-savings-progressbar">
+                <div class="savings-progress-fill" id="kpi-savings-bar" style="width: 0%;"></div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== DASHBOARD & CHARTS SECTION ==================== -->
+    <section class="section dashboard-section" aria-label="Gráficos analíticos de ingresos y gastos">
+      <div class="container">
+        <div class="grid-2-cols">
+          <!-- Main Chart: Ingresos vs Gastos -->
+          <div class="card chart-card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title" id="chart1-title">Balance y Tendencia Mensual</h3>
+                <p class="card-subtitle">Comparativa visual entre Ingresos y Gastos acumulados</p>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="chart-wrapper">
+                <canvas id="incomeExpenseChart" role="img" aria-labelledby="chart1-title" aria-label="Gráfico de barras que compara los ingresos totales versus los gastos totales"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Donut Chart: Gastos por Categoría -->
+          <div class="card chart-card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title" id="chart2-title">Distribución de Gastos</h3>
+                <p class="card-subtitle">Desglose porcentual de egresos por categoría principal</p>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="chart-wrapper chart-wrapper-donut">
+                <canvas id="categoryChart" role="img" aria-labelledby="chart2-title" aria-label="Gráfico circular de dona con el desglose de gastos por categoría"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== MOVIMIENTOS & TABLA CRUD ==================== -->
+    <section class="section" id="movimientos" aria-label="Gestión de historial de transacciones">
+      <div class="container">
+        <div class="card">
+          <div class="card-header flex-between flex-wrap gap-md">
+            <div>
+              <h3 class="card-title" id="tx-table-heading">Historial de Transacciones</h3>
+              <p class="card-subtitle">Administra tus ingresos y gastos de forma organizada</p>
+            </div>
+            <div class="table-actions">
+              <button class="btn btn-secondary btn-sm" id="export-csv-btn" aria-label="Descargar reporte en formato CSV">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                Exportar a CSV
+              </button>
+              <button class="btn btn-primary btn-sm" id="open-modal-btn-2" aria-label="Agregar nueva transacción al historial">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                Agregar Transacción
+              </button>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <!-- Filter Bar -->
+            <div class="filters-bar" role="search" aria-label="Filtros de búsqueda de transacciones">
+              <div class="search-box">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <label for="search-input" class="sr-only">Buscar por concepto o notas</label>
+                <input type="text" id="search-input" placeholder="Buscar por concepto o notas...">
+              </div>
+
+              <div class="filter-controls">
+                <label for="filter-type" class="sr-only">Filtrar por Tipo de Transacción</label>
+                <select id="filter-type" class="form-select">
+                  <option value="all">Todos los Tipos</option>
+                  <option value="ingreso">Ingresos</option>
+                  <option value="gasto">Gastos</option>
+                </select>
+
+                <label for="filter-category" class="sr-only">Filtrar por Categoría</label>
+                <select id="filter-category" class="form-select">
+                  <option value="all">Todas las Categorías</option>
+                  <option value="Vivienda">Vivienda</option>
+                  <option value="Alimentación">Alimentación</option>
+                  <option value="Transporte">Transporte</option>
+                  <option value="Servicios">Servicios</option>
+                  <option value="Entretenimiento">Entretenimiento</option>
+                  <option value="Inversiones">Inversiones</option>
+                  <option value="Salud">Salud</option>
+                  <option value="Salario">Salario</option>
+                  <option value="Freelance">Freelance</option>
+                  <option value="Otros">Otros</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Table -->
+            <div class="table-responsive" tabindex="0" role="region" aria-labelledby="tx-table-heading">
+              <table class="data-table" aria-describedby="tx-table-heading">
+                <thead>
+                  <tr>
+                    <th scope="col">Concepto</th>
+                    <th scope="col">Categoría</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Tipo</th>
+                    <th scope="col">Monto</th>
+                    <th scope="col" class="text-right">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="transactions-tbody">
+                  <!-- Rendered dynamically by JS -->
+                </tbody>
+              </table>
+
+              <div class="empty-state" id="empty-state" style="display: none;">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                <h4>No se encontraron movimientos</h4>
+                <p>Intenta cambiar los filtros o agrega una nueva transacción.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== PRESUPUESTOS Y METAS ==================== -->
+    <section class="section" id="presupuestos" aria-label="Control de presupuestos y metas de ahorro">
+      <div class="container">
+        <div class="grid-2-cols">
+          <!-- Control de Presupuestos -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Presupuestos por Categoría</h3>
+                <p class="card-subtitle">Límites mensuales proyectados de gastos</p>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="budget-list" id="budget-list">
+                <!-- Rendered dynamically by JS -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Metas de Ahorro -->
+          <div class="card">
+            <div class="card-header flex-between">
+              <div>
+                <h3 class="card-title">Metas de Ahorro e Inversión</h3>
+                <p class="card-subtitle">Proyectos financieros a mediano y largo plazo</p>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="goals-grid" id="goals-grid">
+                <!-- Rendered dynamically by JS -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== CALCULADORAS Y SIMULADORES ==================== -->
+    <section class="section" id="calculadoras" aria-label="Simuladores e instrumentos de cálculo financiero">
+      <div class="container">
+        <div class="card">
+          <div class="card-header flex-between flex-wrap gap-md">
+            <div>
+              <h3 class="card-title">Simuladores Financieros Profesionales</h3>
+              <p class="card-subtitle">Proyecta el crecimiento de tus inversiones o el costo real de tus créditos</p>
+            </div>
+            <div class="tab-buttons" role="tablist" aria-label="Simuladores disponibles">
+              <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="interest-tab" id="tab-interest" data-tab="interest-tab">Interés Compuesto</button>
+              <button class="tab-btn" role="tab" aria-selected="false" aria-controls="loan-tab" id="tab-loan" data-tab="loan-tab">Simulador de Créditos</button>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <!-- TAB 1: INTERÉS COMPUESTO -->
+            <div class="tab-content active" id="interest-tab" role="tabpanel" aria-labelledby="tab-interest">
+              <div class="calculator-grid">
+                <form id="interest-form" class="calc-form">
+                  <div class="form-group">
+                    <label for="init-capital">Capital Inicial ($)</label>
+                    <input type="number" id="init-capital" value="1000" min="0" step="100" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="monthly-deposit">Aporte Mensual ($)</label>
+                    <input type="number" id="monthly-deposit" value="200" min="0" step="50" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="annual-rate">Tasa de Interés Anual (%)</label>
+                    <input type="number" id="annual-rate" value="8.5" min="0" max="100" step="0.1" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="calc-years">Plazo en Años</label>
+                    <input type="number" id="calc-years" value="10" min="1" max="50" required>
+                  </div>
+                  <button type="submit" class="btn btn-primary btn-full" aria-label="Calcular proyección de interés compuesto">
+                    Calcular Proyección
+                  </button>
+                </form>
+
+                <div class="calc-results-box" aria-live="polite">
+                  <h4>Proyección de Retorno</h4>
+                  <div class="calc-metrics">
+                    <div class="metric-item">
+                      <span class="metric-label">Monto Final Proyectado</span>
+                      <span class="metric-value text-green" id="res-final-balance">$0.00</span>
+                    </div>
+                    <div class="metric-item">
+                      <span class="metric-label">Total Aportado</span>
+                      <span class="metric-value" id="res-total-deposited">$0.00</span>
+                    </div>
+                    <div class="metric-item">
+                      <span class="metric-label">Intereses Ganados</span>
+                      <span class="metric-value text-accent" id="res-total-interest">$0.00</span>
+                    </div>
+                  </div>
+                  <div class="calc-bar-visual" role="progressbar" aria-label="Relación entre capital invertido e intereses ganados" aria-valuemin="0" aria-valuemax="100">
+                    <div class="calc-bar-deposited" id="bar-deposited" style="width: 50%;" title="Capital Aportado"></div>
+                    <div class="calc-bar-interest" id="bar-interest" style="width: 50%;" title="Ganancia por Interés"></div>
+                  </div>
+                  <p class="calc-note">* El cálculo asume una tasa constante con capitalización mensual.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- TAB 2: SIMULADOR DE PRÉSTAMOS -->
+            <div class="tab-content" id="loan-tab" role="tabpanel" aria-labelledby="tab-loan">
+              <div class="calculator-grid">
+                <form id="loan-form" class="calc-form">
+                  <div class="form-group">
+                    <label for="loan-amount">Monto del Préstamo ($)</label>
+                    <input type="number" id="loan-amount" value="10000" min="100" step="500" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="loan-rate">Tasa de Interés Anual (%)</label>
+                    <input type="number" id="loan-rate" value="12" min="0.1" max="100" step="0.1" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="loan-months">Plazo en Meses</label>
+                    <input type="number" id="loan-months" value="36" min="1" max="360" required>
+                  </div>
+                  <button type="submit" class="btn btn-primary btn-full" aria-label="Calcular cuota mensual de crédito">
+                    Calcular Cuota Mensual
+                  </button>
+                </form>
+
+                <div class="calc-results-box" aria-live="polite">
+                  <h4>Resumen del Crédito</h4>
+                  <div class="calc-metrics">
+                    <div class="metric-item">
+                      <span class="metric-label">Cuota Mensual Estimada</span>
+                      <span class="metric-value text-red" id="res-loan-monthly">$0.00</span>
+                    </div>
+                    <div class="metric-item">
+                      <span class="metric-label">Total a Pagar</span>
+                      <span class="metric-value" id="res-loan-total">$0.00</span>
+                    </div>
+                    <div class="metric-item">
+                      <span class="metric-label">Total Intereses</span>
+                      <span class="metric-value text-red" id="res-loan-interest">$0.00</span>
+                    </div>
+                  </div>
+                  <p class="calc-note">* Cálculo mediante el sistema de amortización francés (cuota fija mensual).</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== CONVERSOR DE DIVISAS ==================== -->
+    <section class="section" id="divisas" aria-label="Conversor de divisas internacionales">
+      <div class="container">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h3 class="card-title">Conversor de Moneda en Tiempo Real</h3>
+              <p class="card-subtitle">Cotización y conversión con divisas internacionales y latinoamericanas</p>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="converter-box">
+              <div class="converter-inputs">
+                <div class="form-group">
+                  <label for="conv-amount">Monto a Convertir</label>
+                  <input type="number" id="conv-amount" value="100" min="1" step="1">
+                </div>
+
+                <div class="form-group">
+                  <label for="conv-from">De (Moneda Origen)</label>
+                  <select id="conv-from" class="form-select">
+                    <option value="USD">USD - Dólar Estadounidense</option>
+                    <option value="EUR">EUR - Euro</option>
+                    <option value="COP">COP - Peso Colombiano</option>
+                    <option value="MXN">MXN - Peso Mexicano</option>
+                    <option value="ARS">ARS - Peso Argentino</option>
+                  </select>
+                </div>
+
+                <button type="button" class="converter-swap-btn" id="conv-swap-btn" title="Invertir Monedas" aria-label="Invertir moneda de origen y destino">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><polyline points="7 23 3 19 7 15"></polyline><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg>
+                </button>
+
+                <div class="form-group">
+                  <label for="conv-to">A (Moneda Destino)</label>
+                  <select id="conv-to" class="form-select">
+                    <option value="COP" selected>COP - Peso Colombiano</option>
+                    <option value="USD">USD - Dólar Estadounidense</option>
+                    <option value="EUR">EUR - Euro</option>
+                    <option value="MXN">MXN - Peso Mexicano</option>
+                    <option value="ARS">ARS - Peso Argentino</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="converter-result-display" aria-live="polite">
+                <span class="conv-label">Resultado de Conversión:</span>
+                <h2 class="conv-result-value" id="conv-result-value">$400,000 COP</h2>
+                <span class="conv-rate-info" id="conv-rate-info">1 USD = 4,000.00 COP</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==================== FOOTER & REDES SOCIALES ==================== -->
+  <footer class="footer" role="contentinfo">
+    <div class="container footer-content">
+      <div class="footer-brand">
+        <a href="#" class="logo" aria-label="FinanPro Inicio">
+          <div class="logo-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+          </div>
+          <span>Finan<span class="gradient-text">Pro</span></span>
+        </a>
+        <p>Plataforma integral de gestión financiera. Potencia tus ahorros y toma decisiones con datos claros.</p>
+      </div>
+
+      <div class="footer-links">
+        <h4>Navegación</h4>
+        <ul>
+          <li><a href="#resumen">Dashboard</a></li>
+          <li><a href="#movimientos">Movimientos</a></li>
+          <li><a href="#presupuestos">Presupuestos</a></li>
+          <li><a href="#calculadoras">Simuladores</a></li>
+          <li><a href="#divisas">Divisas</a></li>
+        </ul>
+      </div>
+
+      <!-- Redes Sociales & Comunidad -->
+      <div class="footer-social-section">
+        <h4>Síguenos en Redes Sociales</h4>
+        <p class="social-subtitle">Únete a nuestra comunidad financiera</p>
+        <div class="social-buttons-grid">
+          <!-- GitHub -->
+          <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="social-btn social-github" title="Perfil oficial en GitHub" aria-label="Visitar perfil en GitHub">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+            <span>GitHub</span>
+          </a>
+
+          <!-- LinkedIn -->
+          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="social-btn social-linkedin" title="Perfil oficial en LinkedIn" aria-label="Visitar perfil en LinkedIn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+            <span>LinkedIn</span>
+          </a>
+
+          <!-- Twitter / X -->
+          <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" class="social-btn social-twitter" title="Cuenta oficial en Twitter o X" aria-label="Visitar cuenta en Twitter X">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path></svg>
+            <span>Twitter / X</span>
+          </a>
+
+          <!-- Instagram -->
+          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="social-btn social-instagram" title="Perfil oficial en Instagram" aria-label="Visitar perfil en Instagram">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+            <span>Instagram</span>
+          </a>
+
+          <!-- Facebook -->
+          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="social-btn social-facebook" title="Página oficial en Facebook" aria-label="Visitar página en Facebook">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+            <span>Facebook</span>
+          </a>
+
+          <!-- YouTube -->
+          <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="social-btn social-youtube" title="Canal oficial de YouTube" aria-label="Visitar canal en YouTube">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg>
+            <span>YouTube</span>
+          </a>
+
+          <!-- WhatsApp -->
+          <a href="https://whatsapp.com" target="_blank" rel="noopener noreferrer" class="social-btn social-whatsapp" title="Canal oficial de WhatsApp" aria-label="Contactar por WhatsApp">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+            <span>WhatsApp</span>
+          </a>
+
+          <!-- Telegram -->
+          <a href="https://telegram.org" target="_blank" rel="noopener noreferrer" class="social-btn social-telegram" title="Comunidad en Telegram" aria-label="Unirse al canal de Telegram">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+            <span>Telegram</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="container footer-copy">
+      <p>&copy; 2026 FinanPro. Todos los derechos reservados. Diseñado para un control financiero profesional y accesible.</p>
+    </div>
+  </footer>
+
+  <!-- ==================== FLOATING SOCIAL SIDEBAR ==================== -->
+  <aside class="floating-social-sidebar" aria-label="Redes sociales secundarias">
+    <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="float-icon float-github" title="GitHub" aria-label="GitHub">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+    </a>
+    <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="float-icon float-linkedin" title="LinkedIn" aria-label="LinkedIn">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+    </a>
+    <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" class="float-icon float-twitter" title="Twitter / X" aria-label="Twitter X">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path></svg>
+    </a>
+    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="float-icon float-instagram" title="Instagram" aria-label="Instagram">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+    </a>
+    <a href="https://whatsapp.com" target="_blank" rel="noopener noreferrer" class="float-icon float-whatsapp" title="WhatsApp" aria-label="WhatsApp">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+    </a>
+  </aside>
+
+  <!-- ==================== MODAL NUEVA TRANSACCIÓN ==================== -->
+  <div class="modal-backdrop" id="tx-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title-text">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modal-title-text">Registrar Transacción</h3>
+        <button class="modal-close" id="modal-close-btn" aria-label="Cerrar ventana">&times;</button>
+      </div>
+      <form id="tx-form" class="modal-body">
+        <div class="form-group">
+          <label for="tx-description">Concepto / Descripción</label>
+          <input type="text" id="tx-description" placeholder="Ej. Pago de Salario, Supermercado..." required>
+        </div>
+
+        <div class="form-row grid-2-cols">
+          <div class="form-group">
+            <label for="tx-amount">Monto ($)</label>
+            <input type="number" id="tx-amount" min="0.01" step="0.01" placeholder="0.00" required>
+          </div>
+
+          <div class="form-group">
+            <label for="tx-type">Tipo de Movimiento</label>
+            <select id="tx-type" class="form-select" required>
+              <option value="ingreso">Ingreso (+)</option>
+              <option value="gasto" selected>Gasto (-)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row grid-2-cols">
+          <div class="form-group">
+            <label for="tx-category">Categoría</label>
+            <select id="tx-category" class="form-select" required>
+              <option value="Vivienda">Vivienda</option>
+              <option value="Alimentación">Alimentación</option>
+              <option value="Transporte">Transporte</option>
+              <option value="Servicios">Servicios</option>
+              <option value="Entretenimiento">Entretenimiento</option>
+              <option value="Inversiones">Inversiones</option>
+              <option value="Salud">Salud</option>
+              <option value="Salario">Salario</option>
+              <option value="Freelance">Freelance</option>
+              <option value="Otros">Otros</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="tx-date">Fecha</label>
+            <input type="date" id="tx-date" required>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="modal-cancel-btn">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Guardar Transacción</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL DE APORTE A META ==================== -->
+  <div class="modal-backdrop" id="goal-modal" role="dialog" aria-modal="true" aria-labelledby="goal-modal-title">
+    <div class="modal modal-sm">
+      <div class="modal-header">
+        <h3 class="modal-title" id="goal-modal-title">Abonar a Meta</h3>
+        <button class="modal-close" id="goal-modal-close-btn" aria-label="Cerrar ventana">&times;</button>
+      </div>
+      <form id="goal-form" class="modal-body">
+        <input type="hidden" id="goal-id">
+        <div class="form-group">
+          <label id="goal-name-label" for="goal-deposit-amount">Nombre de la Meta</label>
+          <input type="number" id="goal-deposit-amount" min="1" step="0.01" placeholder="Monto a aportar ($)" required>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="goal-modal-cancel-btn">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Añadir Ahorro</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== TOAST NOTIFICATIONS CONTAINER ==================== -->
+  <div class="toast-container" id="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- Supabase CDN & Configuration -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabaseConfig.js"></script>
+
+  <!-- Custom JavaScript -->
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -4,13 +4,13 @@
    proyecto en https://supabase.com (Project Settings -> API).
    ========================================================================== */
 
-const SUPABASE_URL = 'https://crbtfrvkmabkofktegbp.supabase.co/rest/v1/'; 
+const SUPABASE_URL = 'https://crbtfrvkmabkofktegbp.supabase.co'; 
 const SUPABASE_ANON_KEY = 'sb_publishable_HrMCQ4pGmvpUh-3xsBgfFw_qHBQ6kDk';
 
 let supabaseClient = null;
 
 // Inicializa el cliente si las credenciales fueron configuradas y la librería está cargada
-if (window.supabase && SUPABASE_URL !== 'https://crbtfrvkmabkofktegbp.supabase.co/rest/v1/' && SUPABASE_ANON_KEY !== 'sb_publishable_HrMCQ4pGmvpUh-3xsBgfFw_qHBQ6kDk') {
+if (window.supabase && SUPABASE_URL && SUPABASE_ANON_KEY && !SUPABASE_URL.includes('AQUI_TU_SUPABASE_URL')) {
   try {
     supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     console.log('✅ Supabase conectado correctamente');
